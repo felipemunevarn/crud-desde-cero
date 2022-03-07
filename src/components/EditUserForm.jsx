@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const AddUserForm = (props) => {
+const EditUserForm = ({ currentUser, updateUser }) => {
 
     const { register, errors, handleSubmit } = useForm();
 
@@ -9,13 +9,14 @@ const AddUserForm = (props) => {
         console.log(data);
     }
 
-    const initialFormState = { id: null, name: '', username: '' }
-    const [user, setUser] = useState(initialFormState)
+    //const initialFormState = { id: null, name: '', username: ''}
+    const [user, setUser] = useState(currentUser)
 
     const handleInputChange = (event) => {
       const { name, value } = event.target;
 
       setUser({ ...user, [name]: value })
+      console.log(user);
     }
 
     return (
@@ -24,17 +25,17 @@ const AddUserForm = (props) => {
                 event.preventDefault()
                 if (!user.name || !user.username) return
 
-                props.addUser(user)
-                setUser(initialFormState)
-              }}
+                updateUser(user.id, user);
+                //setUser(initialFormState);
+            }}
         >
             <label>Name</label>
             <input type="text" name="name" value={user.name} onChange={handleInputChange} />
             <label>Username</label>
             <input type="text" name="username" value={user.username} onChange={handleInputChange} />
-            <button>Add new user</button>
+            <button>Edit user</button>
         </form>
     )
 }
 
-export default AddUserForm;
+export default EditUserForm;
